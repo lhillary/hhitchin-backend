@@ -10,9 +10,9 @@ const getContacts = (request, response) => {
 }
 
 const getChaseContacts = (request, response) => {
-    const Accepted = 'yes';
+    const notAccepted = '0';
 
-    pool.query('SELECT * FROM Contacts WHERE Accepted < $1', [Accepted], (error, results) => {
+    pool.query('SELECT * FROM Contacts WHERE Accepted = $1', [notAccepted], (error, results) => {
         if (error) {
             throw error;
         }
