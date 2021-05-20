@@ -20,7 +20,8 @@
     "express": "^4.17.1",
     "nodemon": "^1.19.4",
     "pg": "^8.5.1",
-    "postgres": "^1.0.2"
+    "postgres": "^1.0.2",
+    "twilio": "^3.62.0"
   },
   "devDependencies": {
     "twilio": "^3.62.0"
