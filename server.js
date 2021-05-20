@@ -4,9 +4,16 @@ const express = require('express');
 const cors = require('cors');
 const {pool} = require('./config');
 const port = 8090;
+const client = require('twilio')(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
+const mynumber = process.env.TWILIO_PHONE_NUMBER;
+const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const app = express();
 const db = require('./queries');
+const twilio = require('./twilio');
 
 // create application/json parser
 app.use(express.urlencoded({ extended: false }));
@@ -20,8 +27,11 @@ app.get('/', (req, res) => {
 //crud
 app.get('/contacts', db.getContacts);
 app.get('/chase', db.getChaseContacts);
-app.post('/contacts', db.createContact);
-app.put('/contacts/:id', db.updateAccepted);
+app.get('/attending', db.getAttendingContacts);
+app.post('/send', twilio.sendMessage);
+app.post('/fetch-inbound', twilio.getInboundLog);
+app.post('/fetch-outbound', twilio.getOutboundLog);
+app.post('/receive', twilio.parseMessagesReceived);
 
 // listen on the port
 app.listen(process.env.PORT || port, () => {

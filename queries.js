@@ -10,9 +10,9 @@ const getContacts = (request, response) => {
 }
 
 const getChaseContacts = (request, response) => {
-    const notAccepted = '0';
+    const responded = 'f';
 
-    pool.query('SELECT * FROM Contacts WHERE Accepted = $1', [notAccepted], (error, results) => {
+    pool.query('SELECT * FROM Contacts WHERE Responded = $1', [Responded], (error, results) => {
         if (error) {
             throw error;
         }
@@ -20,42 +20,19 @@ const getChaseContacts = (request, response) => {
     });
 }
 
-const createContact = (request, response) => {
-    const Name = request.body.name,
-            Phone = request.body.phone,
-            Accepted = 'na';
+const getAttendingContacts = (request, response) => {
+    const attending = 'y';
 
-    pool.query(
-        'INSERT INTO Contacts (Name, Phone, Accepted) VALUES ($1, $2, $3)',
-        [Name, Phone, Accepted],
-        (error) => {
-            if (error) {
-                throw error;
-            }
-            response.status(201).json({status: 'success', message: `Contact added!`});
+    pool.query('SELECT * FROM Contacts WHERE Attending = $1', [Responded], (error, results) => {
+        if (error) {
+            throw error;
         }
-    )
-}
-
-const updateAccepted = (request, response) => {
-    const id = parseInt(request.params.id);
-    const Accepted = request.body.accepted;
-
-    pool.query(
-        'UPDATE Contacts SET Accepted = $1 WHERE id = $2',
-        [Accepted, id],
-        (error, results) => {
-            if (error) {
-                throw error;
-            }
-            response.status(200).send(`Contact modified with ID: ${id}`);
-        }
-    )
+        response.status(200).json(results.rows);
+    });
 }
 
 module.exports = {
     getContacts,
     getChaseContacts,
-    createContact,
-    updateAccepted
+    getAttendingContacts
 }
