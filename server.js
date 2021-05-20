@@ -13,7 +13,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const app = express();
 const db = require('./queries');
-const twilio = require('./twilio');
+const msg = require('./twilio');
 
 // create application/json parser
 app.use(express.urlencoded({ extended: false }));
@@ -28,10 +28,10 @@ app.get('/', (req, res) => {
 app.get('/contacts', db.getContacts);
 app.get('/chase', db.getChaseContacts);
 app.get('/attending', db.getAttendingContacts);
-app.post('/send', twilio.sendMessage);
-app.post('/fetch-inbound', twilio.getInboundLog);
-app.post('/fetch-outbound', twilio.getOutboundLog);
-app.post('/receive', twilio.parseMessagesReceived);
+app.post('/send', msg.sendMessage);
+app.post('/fetch-inbound', msg.getInboundLog);
+app.post('/fetch-outbound', msg.getOutboundLog);
+app.post('/receive', msg.parseMessagesReceived);
 
 // listen on the port
 app.listen(process.env.PORT || port, () => {
