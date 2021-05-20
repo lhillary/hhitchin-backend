@@ -12,7 +12,7 @@ const getContacts = (request, response) => {
 const getChaseContacts = (request, response) => {
     const responded = 'f';
 
-    pool.query('SELECT * FROM Contacts WHERE Responded = $1', [Responded], (error, results) => {
+    pool.query('SELECT * FROM Contacts WHERE Responded = $1', [responded], (error, results) => {
         if (error) {
             throw error;
         }
@@ -23,7 +23,7 @@ const getChaseContacts = (request, response) => {
 const getAttendingContacts = (request, response) => {
     const attending = 'y';
 
-    pool.query('SELECT * FROM Contacts WHERE Attending = $1', [Responded], (error, results) => {
+    pool.query('SELECT * FROM Contacts WHERE Attending = $1', [attending], (error, results) => {
         if (error) {
             throw error;
         }
