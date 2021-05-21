@@ -55,11 +55,14 @@ const getOutboundLog = (request, response) => {
 
 const parseMessagesReceived = (request, response) => {
     const twiml = new MessagingResponse();
+    const MakeTrue = "t";
+    const MakeFalse = "f";
+    const MakeTwo = 2;
     const Phone = request.body.From;
 
     pool.query(
-        'UPDATE Contacts SET Responded = "t" WHERE Phone = $1',
-        [Phone],
+        'UPDATE Contacts SET Responded = $1 WHERE Phone = $2',
+        [MakeTrue, Phone],
         (error, results) => {
             if (error) {
                 throw error;
@@ -68,11 +71,11 @@ const parseMessagesReceived = (request, response) => {
         }
     )
 
-    if (req.body.Body == 'yes' || req.body.Body == 'y') {
+    if (request.body.Body == 'yes' || request.body.Body == 'y') {
 
         pool.query(
-            'UPDATE Contacts SET Attending = "t", Number = 1 WHERE Phone = $1',
-            [Phone],
+            'UPDATE Contacts SET Attending = $1, Number = 1 WHERE Phone = $2',
+            [MakeTrue, Phone],
             (error, results) => {
                 if (error) {
                     throw error;
@@ -82,11 +85,11 @@ const parseMessagesReceived = (request, response) => {
         )
 
         twiml.message('Yay! Can/t wait to see you! We/re gonna party hardy! Text 1 if you/re bringing a guest, otherwise no problem! See you there!');
-    } else if (req.body.Body == 'no' || req.body.Body == 'n') {
+    } else if (request.body.Body == 'no' || request.body.Body == 'n') {
 
         pool.query(
-            'UPDATE Contacts SET Attending = "f" WHERE Phone = $1',
-            [Phone],
+            'UPDATE Contacts SET Attending = $1 WHERE Phone = $2',
+            [MakeFalse, Phone],
             (error, results) => {
                 if (error) {
                     throw error;
@@ -96,11 +99,11 @@ const parseMessagesReceived = (request, response) => {
         )
 
         twiml.message('Sorry to hear you can/t make it! We/ll miss your face but know you/re there in spirit.');
-    } else if (req.body.Body == '1' || req.body.Body == 'one') {
+    } else if (request.body.Body == '1' || request.body.Body == 'one') {
 
         pool.query(
-            'UPDATE Contacts SET Number = 2 WHERE Phone = $1',
-            [Phone],
+            'UPDATE Contacts SET Number = $1 WHERE Phone = $2',
+            [MakeTwo, Phone],
             (error, results) => {
                 if (error) {
                     throw error;
