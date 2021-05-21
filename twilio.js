@@ -67,7 +67,6 @@ const parseMessagesReceived = (request, response) => {
             if (error) {
                 throw error;
             }
-            response.status(200).send(`Contact with phone number: ${Phone} responded`);
         }
     )
 
@@ -80,7 +79,6 @@ const parseMessagesReceived = (request, response) => {
                 if (error) {
                     throw error;
                 }
-                response.status(200).send(`Contact with phone number: ${Phone} marked attending with 1 guest`);
             }
         )
 
@@ -94,7 +92,6 @@ const parseMessagesReceived = (request, response) => {
                 if (error) {
                     throw error;
                 }
-                response.status(200).send(`Contact with phone number: ${Phone} marked not attending`);
             }
         )
 
@@ -108,7 +105,6 @@ const parseMessagesReceived = (request, response) => {
                 if (error) {
                     throw error;
                 }
-                response.status(200).send(`Contact with phone number: ${Phone} bringing one guest`);
             }
         )
 
