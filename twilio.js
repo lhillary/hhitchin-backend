@@ -113,7 +113,7 @@ const parseMessagesReceived = (request, response) => {
         twiml.message('What/s that? You kiss your mother with that mouth? If you meant something else and butt-dialed, email or text Diana at Diana.h84@gmail.com or 989-975-2128.');
     }
 
-    response.status(200).send(`Status: 200`);
+    response.writeHead(200, {'Content-Type': 'text/xml'});
     response.end(twiml.toString());
 }
 
