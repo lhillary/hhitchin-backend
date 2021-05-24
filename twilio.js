@@ -25,21 +25,7 @@ client.messages
     });
 }
 
-const getInboundLog = (request, response) => {
-    if (request.body.number == "") {
-        data = { limit: 100 };
-    } else {
-        data = { limit: 100, from: request.body.number };
-    }
-
-    client.messages.list(data)
-        .then(function(messages) {
-            response.send(JSON.stringify(messages));
-            response.end();
-        });
-}
-
-const getOutboundLog = (request, response) => {
+const getMessageLogs = (request, response) => {
     if (request.body.number == "") {
         data = { limit: 100 };
     } else {
@@ -82,7 +68,7 @@ const parseMessagesReceived = (request, response) => {
             }
         )
 
-        twiml.message('Yay! Can/t wait to see you! We/re gonna party hardy! Text 1 if you/re bringing a guest, otherwise no problem! See you there!');
+        twiml.message('Yay! Can\'t wait to see you! We\'re gonna party hardy! Text 1 if you/re bringing a guest, otherwise no problem! See you there!');
     } else if (request.body.Body == 'no' || request.body.Body == 'n') {
 
         pool.query(
@@ -95,7 +81,7 @@ const parseMessagesReceived = (request, response) => {
             }
         )
 
-        twiml.message('Sorry to hear you can/t make it! We/ll miss your face but know you/re there in spirit.');
+        twiml.message('Sorry to hear you can\'t make it! We\'ll miss your face but know you\'re there in spirit.');
     } else if (request.body.Body == '1' || request.body.Body == 'one') {
 
         pool.query(
@@ -108,9 +94,9 @@ const parseMessagesReceived = (request, response) => {
             }
         )
 
-        twiml.message('Awesome! Looking forward to seeing y/all!');
+        twiml.message('Awesome! Looking forward to seeing y\'all!');
     } else {
-        twiml.message('What/s that? You kiss your mother with that mouth? If you meant something else and butt-dialed, email or text Diana at Diana.h84@gmail.com or 989-975-2128.');
+        twiml.message('What\'s that? You kiss your mother with that mouth? If you meant something else and butt-dialed, email or text Diana at Diana.h84@gmail.com or 989-975-2128.');
     }
 
     response.writeHead(200, {'Content-Type': 'text/xml'});
@@ -119,7 +105,6 @@ const parseMessagesReceived = (request, response) => {
 
 module.exports = {
     sendMessage,
-    getInboundLog,
-    getOutboundLog,
+    getMessageLogs,
     parseMessagesReceived
 }

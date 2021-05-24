@@ -28,9 +28,9 @@ app.get('/', (req, res) => {
 app.get('/contacts', db.getContacts);
 app.get('/chase', db.getChaseContacts);
 app.get('/attending', db.getAttendingContacts);
+app.get('/declined', db.getDeclinedContacts);
 app.post('/send', msg.sendMessage);
-app.post('/fetch-inbound', msg.getInboundLog);
-app.post('/fetch-outbound', msg.getOutboundLog);
+app.post('/fetch-logs', msg.getMessageLogs);
 app.post('/receive', msg.parseMessagesReceived);
 
 // listen on the port
