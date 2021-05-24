@@ -70,7 +70,7 @@ const parseMessagesReceived = (request, response) => {
             }
         )
 
-        twiml.message('Yay! Can\'t wait to see you! We\'re gonna party hardy! Text 1 if you/re bringing a guest, otherwise no problem! See you there!');
+        twiml.message('Yay! Can\'t wait to see you! We\'re gonna party hardy! See you there! TEXT 1 IF YOU\'RE BRINGING A GUEST.');
     } else if (request.body.Body == 'no' || request.body.Body == 'n') {
 
         pool.query(
