@@ -46,6 +46,8 @@ const parseMessagesReceived = (request, response) => {
     const MakeTwo = 2;
     const Phone = request.body.From;
 
+    request.body.Body = request.body.Body.toLowerCase();
+
     pool.query(
         'UPDATE Contacts SET Responded = $1 WHERE Phone = $2',
         [MakeTrue, Phone],
