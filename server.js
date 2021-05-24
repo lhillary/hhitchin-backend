@@ -11,9 +11,31 @@ const client = require('twilio')(
 const mynumber = process.env.TWILIO_PHONE_NUMBER;
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
+const jwt = require("express-jwt"); 
+const jwksRsa = require("jwks-rsa"); 
+
 const app = express();
 const db = require('./queries');
 const msg = require('./twilio');
+
+const authConfig = {
+  domain: process.env.AUTH_DOMAIN,
+  audience: process.env.API_ID
+};
+
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+  }),
+
+  audience: authConfig.audience,
+  issuer: `https://${authConfig.domain}/`,
+  algorithms: ["RS256"]
+});
+
 
 // create application/json parser
 app.use(express.urlencoded({ extended: false }));
@@ -25,13 +47,13 @@ app.get('/', (req, res) => {
 });
 
 //crud
-app.get('/contacts', db.getContacts);
-app.get('/chase', db.getChaseContacts);
-app.get('/attending', db.getAttendingContacts);
-app.get('/declined', db.getDeclinedContacts);
-app.post('/send', msg.sendMessage);
-app.post('/fetch-logs', msg.getMessageLogs);
-app.post('/receive', msg.parseMessagesReceived);
+app.get('/contacts', checkJwt, db.getContacts);
+app.get('/chase', checkJwt, db.getChaseContacts);
+app.get('/attending', checkJwt, db.getAttendingContacts);
+app.get('/declined', checkJwt, db.getDeclinedContacts);
+app.post('/send', checkJwt, msg.sendMessage);
+app.post('/fetch-logs', checkJwt, msg.getMessageLogs);
+app.post('/receive', checkJwt, msg.parseMessagesReceived);
 
 // listen on the port
 app.listen(process.env.PORT || port, () => {
