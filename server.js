@@ -36,11 +36,16 @@ const checkJwt = jwt({
   algorithms: ["RS256"]
 });
 
+// disable in development
+const origin = {
+  origin: 'https://dashboard.humphreyhillaryhitchin.com',
+}
+
 
 // create application/json parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors());
+app.use(cors(origin));
 
 app.get('/', (req, res) => {
   res.json({info: 'Humphrey Hillary Hitchin API'})
