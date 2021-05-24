@@ -53,7 +53,7 @@ app.get('/attending', checkJwt, db.getAttendingContacts);
 app.get('/declined', checkJwt, db.getDeclinedContacts);
 app.post('/send', checkJwt, msg.sendMessage);
 app.post('/fetch-logs', checkJwt, msg.getMessageLogs);
-app.post('/receive', checkJwt, msg.parseMessagesReceived);
+app.post('/receive', msg.parseMessagesReceived);
 
 // listen on the port
 app.listen(process.env.PORT || port, () => {
